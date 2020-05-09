@@ -124,6 +124,12 @@ form > div {
 form > div.active {
   background-color: lavender;
 }
+form > div.error {
+  display: block;
+  color: #a00;
+  font-weight: bold;
+  text-align: center;
+}
 
 form > div > div {
   display: block;

@@ -15,6 +15,7 @@
     "apollo-link-context": "^1.0.20",
     "apollo-server-micro": "^2.13.0",
     "final-form": "^4.19.1",
+    "final-form-arrays": "^3.0.2",
     "github-markdown-css": "^4.0.0",
     "graphql": "^15.0.0",
     "isomorphic-unfetch": "^3.0.0",
@@ -24,6 +25,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-final-form": "^6.4.0",
+    "react-final-form-arrays": "^3.1.1",
     "sane-email-validation": "^3.0.1",
     "ts-json-db": "^2.0.4"
   },
