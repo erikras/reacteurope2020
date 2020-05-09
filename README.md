@@ -3,9 +3,9 @@
 ### Preparation
 
 ```bash
-git clone https://github.com/erikras/reacteurope2020.git workshop
+git clone https://github.com/erikras/reacteurope2020.git
 
-cd workshop
+cd reacteurope2020
 
 yarn
 ```
