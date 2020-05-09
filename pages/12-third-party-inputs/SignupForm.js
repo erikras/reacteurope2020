@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form } from 'react-final-form'
+import { Form, Field } from 'react-final-form'
 import validate from './validate'
 import {
   Paper,
@@ -13,13 +13,41 @@ import {
   MenuItem,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   Select,
   TextField,
 } from '@material-ui/core'
 import onSubmit from '../../common/onSubmit'
 
+const AdaptedTextInput = ({ input, meta, ...rest }) => (
+  <TextField
+    {...rest}
+    {...input}
+    helperText={meta.touched && meta.error ? meta.error : undefined}
+    error={meta.touched && meta.error}
+  />
+)
+
+const AdaptedCheckbox = ({ input, meta, ...rest }) => (
+  <Checkbox {...input} {...rest} />
+)
+
+const AdaptedSelect = ({ input, meta, fullWidth, label, ...rest }) => (
+  <FormControl fullWidth={fullWidth} error={meta.touched && meta.invalid}>
+    <InputLabel htmlFor={input.name}>{label}</InputLabel>
+    <Select {...input} {...rest} fullWidth={fullWidth} />
+    {meta.touched && meta.error && (
+      <FormHelperText>{meta.error}</FormHelperText>
+    )}
+  </FormControl>
+)
+
+const AdaptedRadio = ({ input, meta, ...rest }) => (
+  <Radio {...input} {...rest} />
+)
+
 /**
- * Objective: Control this Material-UI form with React Final Form.
+ * Objective: Convert this form to use Material-UI inputs.
  *
  * https://material-ui.com/components/text-fields/
  * https://material-ui.com/components/checkboxes/
@@ -41,20 +69,22 @@ export default function SignupForm() {
       {({ handleSubmit, submitting, values }) => (
         <form onSubmit={handleSubmit}>
           <Paper style={{ padding: 16, maxWidth: 500, margin: '20px auto' }}>
-            <Grid container alignItems="flex-start" spacing={20}>
+            <Grid container spacing={50}>
               <Grid item xs={12}>
-                <TextField
-                  name="firstName"
+                <Field
+                  component={AdaptedTextInput}
                   type="text"
+                  name="firstName"
                   label="First Name"
                   placeholder="First Name"
                   fullWidth
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  name="lastName"
+                <Field
+                  component={AdaptedTextInput}
                   type="text"
+                  name="lastName"
                   label="Last Name"
                   placeholder="Last Name"
                   fullWidth
@@ -62,21 +92,33 @@ export default function SignupForm() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox name="tshirt" color="primary" fullWidth />}
+                  control={
+                    <Field
+                      name="tshirt"
+                      component={AdaptedCheckbox}
+                      type="checkbox"
+                      color="primary"
+                      fullWidth
+                    />
+                  }
                   label="T-Shirt?"
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel htmlFor="tshirtSize">T-Shirt Size</InputLabel>
-                  <Select name="tshirtSize" fullWidth disabled={!values.tshirt}>
-                    <MenuItem value="xs">Extra Small</MenuItem>
-                    <MenuItem value="s">Small</MenuItem>
-                    <MenuItem value="m">Medium</MenuItem>
-                    <MenuItem value="l">Large</MenuItem>
-                    <MenuItem value="xl">Extra Large</MenuItem>
-                  </Select>
-                </FormControl>
+                <Field
+                  name="tshirtSize"
+                  component={AdaptedSelect}
+                  label="T-Shirt Size"
+                  placeholder="T-Shirt Size"
+                  fullWidth
+                  disabled={!values.tshirt}
+                >
+                  <MenuItem value="xs">Extra Small</MenuItem>
+                  <MenuItem value="s">Small</MenuItem>
+                  <MenuItem value="m">Medium</MenuItem>
+                  <MenuItem value="l">Large</MenuItem>
+                  <MenuItem value="xl">Extra Large</MenuItem>
+                </Field>
               </Grid>
               <Grid item>
                 <FormControl component="fieldset">
@@ -85,8 +127,10 @@ export default function SignupForm() {
                     <FormControlLabel
                       label="Red"
                       control={
-                        <Radio
+                        <Field
                           name="tshirtColor"
+                          component={AdaptedRadio}
+                          type="radio"
                           value="#ff0000"
                           disabled={!values.tshirt}
                         />
@@ -95,8 +139,10 @@ export default function SignupForm() {
                     <FormControlLabel
                       label="Green"
                       control={
-                        <Radio
+                        <Field
                           name="tshirtColor"
+                          component={AdaptedRadio}
+                          type="radio"
                           value="#00ff00"
                           disabled={!values.tshirt}
                         />
@@ -105,8 +151,10 @@ export default function SignupForm() {
                     <FormControlLabel
                       label="Blue"
                       control={
-                        <Radio
+                        <Field
                           name="tshirtColor"
+                          component={AdaptedRadio}
+                          type="radio"
                           value="#0000ff"
                           disabled={!values.tshirt}
                         />

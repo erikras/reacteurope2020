@@ -7,12 +7,32 @@ import validate from './validate'
 import Link from 'next/link'
 
 export default function BookForm({ bookId }) {
+  const { data } = useQuery(
+    gql`
+      query($id: Int!) {
+        book(id: $id) {
+          title
+          author {
+            firstName
+            lastName
+          }
+          year
+        }
+      }
+    `,
+    {
+      variables: {
+        id: bookId,
+      },
+    }
+  )
+  const book = data && data.book
   return (
     <div>
       <Link href="/13-loading-from-graphql">
         <a href="/13-loading-from-graphql">Back to list</a>
       </Link>
-      <Form onSubmit={onSubmit} validate={validate}>
+      <Form onSubmit={onSubmit} validate={validate} initialValues={book}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit} className="bookForm">
             <div>

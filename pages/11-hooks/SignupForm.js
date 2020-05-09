@@ -46,10 +46,17 @@ export default function SignupForm() {
 
 // ONLY EDIT BELOW THIS LINE
 
-const TextField = ({ name, placeholder }) => (
-  <input name={name} id={name} type="text" placeholder={placeholder} />
-)
-const EmailField = ({ name, placeholder }) => (
-  <input name={name} id={name} type="email" placeholder={placeholder} />
-)
-const Error = ({ name }) => <span>ERROR</span>
+const TextField = ({ name, placeholder }) => {
+  const { input } = useField(name)
+  return <input id={name} {...input} type="text" placeholder={placeholder} />
+}
+const EmailField = ({ name, placeholder }) => {
+  const { input } = useField(name)
+  return <input id={name} {...input} type="email" placeholder={placeholder} />
+}
+const Error = ({ name }) => {
+  const {
+    meta: { error, touched },
+  } = useField(name, { subscription: { touched: true, error: true } })
+  return error && touched ? <span>{error}</span> : null
+}

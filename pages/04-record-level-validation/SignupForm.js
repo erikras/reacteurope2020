@@ -4,7 +4,9 @@ import onSubmit from '../../common/onSubmit'
 import isEmail from 'sane-email-validation'
 
 /**
- * Objective: Add record-level validation to <Form>
+ * Objective: Add record-level validation to <Form>:
+ * required validation for all fields, * and email validation,
+ * using `isEmail` for the email field.
  *
  * Requirements:
  *  - It should call `onSubmit` when the form is submitted.
@@ -14,39 +16,63 @@ import isEmail from 'sane-email-validation'
  */
 export default function SignupForm() {
   return (
-    <Form onSubmit={onSubmit}>
+    <Form
+      onSubmit={onSubmit}
+      validate={(values) => {
+        const errors = {}
+        if (!values.firstName) {
+          errors.firstName = 'Required'
+        }
+        if (!values.lastName) {
+          errors.lastName = 'Required'
+        }
+        if (!values.email) {
+          errors.email = 'Required'
+        } else if (!isEmail(values.email)) {
+          errors.email = 'Invalid email'
+        }
+        return errors
+      }}
+    >
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="firstName">First Name</label>
-            <Field
-              component="input"
-              type="text"
-              id="firstName"
-              name="firstName"
-              placeholder="First Name"
-            />
-          </div>
-          <div>
-            <label htmlFor="lastName">Last Name</label>
-            <Field
-              component="input"
-              type="text"
-              id="lastName"
-              name="lastName"
-              placeholder="Last Name"
-            />
-          </div>
-          <div>
-            <label htmlFor="email">Email</label>
-            <Field
-              component="input"
-              type="text"
-              id="email"
-              name="email"
-              placeholder="Email"
-            />
-          </div>
+          <Field name="firstName">
+            {({ input, meta }) => (
+              <div>
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  {...input}
+                  id="firstName"
+                  type="text"
+                  placeholder="First Name"
+                />
+                {meta.error && meta.touched && <span>{meta.error}</span>}
+              </div>
+            )}
+          </Field>
+          <Field name="lastName">
+            {({ input, meta }) => (
+              <div>
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  {...input}
+                  id="lastName"
+                  type="text"
+                  placeholder="Last Name"
+                />
+                {meta.error && meta.touched && <span>{meta.error}</span>}
+              </div>
+            )}
+          </Field>
+          <Field name="email">
+            {({ input, meta }) => (
+              <div>
+                <label htmlFor="email">Email</label>
+                <input {...input} id="email" type="email" placeholder="Email" />
+                {meta.error && meta.touched && <span>{meta.error}</span>}
+              </div>
+            )}
+          </Field>
           <button type="submit">Submit</button>
         </form>
       )}

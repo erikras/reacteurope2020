@@ -8,6 +8,14 @@ const validEmail = (value) => (isEmail(value) ? undefined : 'Invalid Email')
 const composeValidators = (...validators) => (value) =>
   validators.reduce((error, validator) => error || validator(value), undefined)
 
+const renderInput = ({ input, meta, placeholder }) => (
+  <div className={meta.active ? 'active' : ''}>
+    <label htmlFor={input.name}>{placeholder}</label>
+    <input {...input} id={input.name} type="text" placeholder={placeholder} />
+    {meta.error && meta.touched && <span>{meta.error}</span>}
+  </div>
+)
+
 /**
  * Objective: Refactor to use a single render function, and put a
  * className="active" on the <div/> when the field it contains is
@@ -22,46 +30,24 @@ export default function SignupForm() {
     <Form onSubmit={onSubmit}>
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
-          <Field name="firstName" validate={required}>
-            {({ input, meta }) => (
-              <div>
-                <label htmlFor="firstName">First Name</label>
-                <input
-                  {...input}
-                  id="firstName"
-                  type="text"
-                  placeholder="First Name"
-                />
-                {meta.error && meta.touched && <span>{meta.error}</span>}
-              </div>
-            )}
-          </Field>
-          <Field name="lastName" validate={required}>
-            {({ input, meta }) => (
-              <div>
-                <label htmlFor="lastName">Last Name</label>
-                <input
-                  {...input}
-                  id="lastName"
-                  type="text"
-                  placeholder="Last Name"
-                />
-                {meta.error && meta.touched && <span>{meta.error}</span>}
-              </div>
-            )}
-          </Field>
+          <Field
+            name="firstName"
+            validate={required}
+            render={renderInput}
+            placeholder="First Name"
+          />
+          <Field
+            name="lastName"
+            validate={required}
+            render={renderInput}
+            placeholder="Last Name"
+          />
           <Field
             name="email"
             validate={composeValidators(required, validEmail)}
-          >
-            {({ input, meta }) => (
-              <div>
-                <label htmlFor="email">Email</label>
-                <input {...input} id="email" type="email" placeholder="Email" />
-                {meta.error && meta.touched && <span>{meta.error}</span>}
-              </div>
-            )}
-          </Field>
+            render={renderInput}
+            placeholder="Email"
+          />
           <button type="submit">Submit</button>
         </form>
       )}

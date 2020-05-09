@@ -36,6 +36,13 @@ export default function BookForm({ bookId }) {
   }
 
   const router = useRouter()
+  const [updateBook] = useMutation(gql`
+    mutation($id: Int!, $Book: UpdateBookInput!) {
+      updateBook(id: $id, Book: $Book) {
+        success
+      }
+    }
+  `)
   return (
     <div>
       <Link href="/14-saving-with-graphql">
@@ -48,7 +55,9 @@ export default function BookForm({ bookId }) {
           // need to convert it to a number.
           const adjustedValues = { ...values, year: Number(values.year) }
 
-          // await updateBook() call with adjustedValues
+          await updateBook({
+            variables: { id: bookId, Book: adjustedValues },
+          })
 
           // Go back to list page...
           router.push('/14-saving-with-graphql')
