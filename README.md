@@ -3,6 +3,10 @@
 ### Preparation
 
 ```bash
+git clone https://github.com/erikras/reacteurope2020.git workshop
+
+cd workshop
+
 yarn
 ```
 
