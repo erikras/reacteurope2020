@@ -15,15 +15,33 @@ export default function SignupForm() {
   const [firstName, setFirstName] = React.useState('')
   const [lastName, setLastName] = React.useState('')
   const [email, setEmail] = React.useState('')
+
+  let firstNameError
+  let lastNameError
+  let emailError
+  if (!firstName) {
+    firstNameError = 'Required'
+  }
+  if (!lastName) {
+    lastNameError = 'Required'
+  }
+  if (!email) {
+    emailError = 'Required'
+  } else if (!isEmail(email)) {
+    emailError = 'Invalid Email'
+  }
+
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault()
-        onSubmit({
-          firstName,
-          lastName,
-          email,
-        })
+        if (!firstNameError && !lastNameError && !emailError) {
+          onSubmit({
+            firstName,
+            lastName,
+            email,
+          })
+        }
       }}
     >
       <div>
@@ -36,9 +54,7 @@ export default function SignupForm() {
           value={firstName}
           onChange={(event) => setFirstName(event.target.value)}
         />
-        <span>
-          Errors go in <code>&lt;span&gt;</code>'s
-        </span>
+        {firstNameError && <span>{firstNameError}</span>}
       </div>
       <div>
         <label htmlFor="lastName">Last Name</label>
@@ -50,6 +66,7 @@ export default function SignupForm() {
           value={lastName}
           onChange={(event) => setLastName(event.target.value)}
         />
+        {lastNameError && <span>{lastNameError}</span>}
       </div>
       <div>
         <label htmlFor="email">Email</label>
@@ -61,6 +78,7 @@ export default function SignupForm() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
+        {emailError && <span>{emailError}</span>}
       </div>
       <button type="submit">Submit</button>
     </form>
