@@ -41,7 +41,7 @@ export default function SignupForm() {
       {({ handleSubmit, submitting, values }) => (
         <form onSubmit={handleSubmit}>
           <Paper style={{ padding: 16, maxWidth: 500, margin: '20px auto' }}>
-            <Grid container alignItems="flex-start" spacing={20}>
+            <Grid container spacing={50}>
               <Grid item xs={12}>
                 <TextField
                   name="firstName"
