@@ -14,6 +14,9 @@ import onSubmit from '../../common/onSubmit'
  *   }
  */
 export default function SignupForm() {
+  const [firstName, setFirstName] = React.useState('')
+  const [lastName, setLastName] = React.useState('')
+  const [email, setEmail] = React.useState('')
   return (
     <form>
       <div>
@@ -23,8 +26,11 @@ export default function SignupForm() {
           id="firstName"
           name="firstName"
           placeholder="First Name"
+          value={firstName}
+          onChange={(event) => setFirstName(event.target.value)}
         />
       </div>
+      <div>{firstName}</div>
       <div>
         <label htmlFor="lastName">Last Name</label>
         <input
@@ -32,11 +38,21 @@ export default function SignupForm() {
           id="lastName"
           name="lastName"
           placeholder="Last Name"
+          value={lastName}
+          onChange={(event) => setLastName(event.target.value)}
         />
       </div>
+      <div>{lastName}</div>
       <div>
         <label htmlFor="email">Email</label>
-        <input type="text" id="email" name="email" placeholder="Email" />
+        <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="Email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
       </div>
       <button type="submit">Submit</button>
     </form>
